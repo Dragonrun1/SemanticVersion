@@ -1,0 +1,11 @@
+syntax: glob
+.hgsub
+*.komodoproject
+composer.phar
+junk.php
+test.php
+log/*.log
+vendor/
+xdebug/
+docs/
+.idea/

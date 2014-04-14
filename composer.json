@@ -1,0 +1,29 @@
+{
+    "name": "Dragonrun1/SemanticVersion",
+    "description": "Package to make managing Semantic Version numbers easier.",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Michael Cummings",
+            "email": "mgcummings@yahoo.com"
+        }
+    ],
+    "support": {
+        "issues": "http://github.com/Dragonrun1/SementicVersion/issues",
+        "source": "http://github.com/Dragonrun1/SementicVersion/archive/master.zip",
+        "wiki": "http://github.com/Dragonrun1/SementicVersion/wiki"
+    },
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SemanticVersion\\": ["lib/", "tests/"]
+        }
+    }
+}
