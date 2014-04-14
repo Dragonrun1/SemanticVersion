@@ -25,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SemanticVersion\\": ["lib/", "tests/"]
+            "Dragonrun1\\SemanticVersion\\": ["lib/", "tests/"]
         }
     }
 }
