@@ -16,6 +16,8 @@
         "wiki": "http://github.com/Dragonrun1/SementicVersion/wiki"
     },
     "require": {
+        "ext-simplexml": "*",
+        "ext-tokenizer": "*",
         "php": ">=5.3.2"
     },
     "require-dev": {
