@@ -28,6 +28,7 @@
  */
 namespace Dragonrun1\SemanticVersion\Tests;
 
+use Dragonrun1\SemanticVersion\Constants as SVC;
 use Dragonrun1\SemanticVersion\Version;
 
 /**
@@ -38,382 +39,729 @@ class VersionTest extends \PHPUnit_Framework_TestCase
     /**
      * @var Version
      */
-    public $testee;
+    public $class;
     public function setup()
     {
-        $this->testee = new Version();
+        $this->class = new Version();
     }
-    public function testBumpVersionWithBumpEqualBuild()
-    {
-        $bump = 'build';
-        $version = '0.0.1-1+1';
-        $result = $this->testee->bumpVersion($version, $bump);
-        $expected = '0.0.1+2';
-        $this->assertEquals($expected, $result);
-        $pre = '0.0.2';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-0.0.2+2';
-        $this->assertEquals($expected, $result);
-        $pre = '123';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-123+2';
-        $this->assertEquals($expected, $result);
-        $build = '1.2.3';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1+1.2.3';
-        $this->assertEquals($expected, $result);
-        $build = '123';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1+123';
-        $this->assertEquals($expected, $result);
-    }
-    public function testBumpVersionWithBumpEqualBuildMajor()
-    {
-        $bump = 'build-major';
-        $version = '0.0.1-0.0.1+0.1.0';
-        $result = $this->testee->bumpVersion($version, $bump);
-        $expected = '0.0.1+1.0.0';
-        $this->assertEquals($expected, $result);
-        $pre = '0.0.4';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-0.0.4+1.0.0';
-        $this->assertEquals($expected, $result);
-        $pre = '123';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-123+1.0.0';
-        $this->assertEquals($expected, $result);
-        $build = '0.0.2';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1+0.0.2';
-        $this->assertEquals($expected, $result);
-        $build = '123';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1+123';
-        $this->assertEquals($expected, $result);
-    }
-    public function testBumpVersionWithBumpEqualBuildMinor()
-    {
-        $bump = 'build-minor';
-        $version = '0.0.1-0.0.1+0.1.0';
-        $result = $this->testee->bumpVersion($version, $bump);
-        $expected = '0.0.1+0.2.0';
-        $this->assertEquals($expected, $result);
-        $pre = '0.0.4';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-0.0.4+0.2.0';
-        $this->assertEquals($expected, $result);
-        $pre = '123';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-123+0.2.0';
-        $this->assertEquals($expected, $result);
-        $build = '0.0.2';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1+0.0.2';
-        $this->assertEquals($expected, $result);
-        $build = '123';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1+123';
-        $this->assertEquals($expected, $result);
-    }
-    public function testBumpVersionWithBumpEqualBuildPatch()
-    {
-        $bump = 'build-patch';
-        $version = '0.0.1-0.0.1+0.1.0';
-        $result = $this->testee->bumpVersion($version, $bump);
-        $expected = '0.0.1+0.1.1';
-        $this->assertEquals($expected, $result);
-        $pre = '0.0.4';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-0.0.4+0.1.1';
-        $this->assertEquals($expected, $result);
-        $pre = '123';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-123+0.1.1';
-        $this->assertEquals($expected, $result);
-        $build = '0.0.2';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1+0.0.2';
-        $this->assertEquals($expected, $result);
-        $build = '123';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1+123';
-        $this->assertEquals($expected, $result);
-    }
-    public function testBumpVersionWithBumpEqualMajor()
-    {
-        $bump = 'major';
-        $version = '0.0.0-0.0.1+0.1.0';
-        $result = $this->testee->bumpVersion($version, $bump);
-        $expected = '1.0.0';
-        $this->assertEquals($expected, $result);
-        $pre = '0.0.2';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '1.0.0-0.0.2';
-        $this->assertEquals($expected, $result);
-        $pre = '123';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '1.0.0-123';
-        $this->assertEquals($expected, $result);
-        $build = '0.0.2';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '1.0.0+0.0.2';
-        $this->assertEquals($expected, $result);
-        $build = '123';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '1.0.0+123';
-        $this->assertEquals($expected, $result);
-    }
-    public function testBumpVersionWithBumpEqualMinor()
-    {
-        $bump = 'minor';
-        $version = '0.0.0-0.0.1+0.1.0';
-        $result = $this->testee->bumpVersion($version, $bump);
-        $expected = '0.1.0';
-        $this->assertEquals($expected, $result);
-        $pre = '0.0.2';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.1.0-0.0.2';
-        $this->assertEquals($expected, $result);
-        $pre = '123';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.1.0-123';
-        $this->assertEquals($expected, $result);
-        $build = '0.0.2';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.1.0+0.0.2';
-        $this->assertEquals($expected, $result);
-        $build = '123';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.1.0+123';
-        $this->assertEquals($expected, $result);
-    }
-    public function testBumpVersionWithBumpEqualPatch()
-    {
-        $bump = 'patch';
-        $version = '0.0.0-0.0.1+0.1.0';
-        $result = $this->testee->bumpVersion($version, $bump);
-        $expected = '0.0.1';
-        $this->assertEquals($expected, $result);
-        $pre = '0.0.2';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-0.0.2';
-        $this->assertEquals($expected, $result);
-        $pre = '123';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-123';
-        $this->assertEquals($expected, $result);
-        $build = '0.0.2';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1+0.0.2';
-        $this->assertEquals($expected, $result);
-        $build = '123';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1+123';
-        $this->assertEquals($expected, $result);
-    }
-    public function testBumpVersionWithBumpEqualPre()
-    {
-        $bump = 'pre';
-        $version = '0.0.1-1+0.1.0';
-        $result = $this->testee->bumpVersion($version, $bump);
-        $expected = '0.0.1-2';
-        $this->assertEquals($expected, $result);
-        $pre = '0.0.2';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-0.0.2';
-        $this->assertEquals($expected, $result);
-        $pre = '123';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-123';
-        $this->assertEquals($expected, $result);
-        $build = '0.0.2';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1-2+0.0.2';
-        $this->assertEquals($expected, $result);
-        $build = '123';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1-2+123';
-        $this->assertEquals($expected, $result);
-    }
-    public function testBumpVersionWithBumpEqualPreMajor()
-    {
-        $bump = 'pre-major';
-        $version = '0.0.1-0.0.1+0.1.0';
-        $result = $this->testee->bumpVersion($version, $bump);
-        $expected = '0.0.1-1.0.0';
-        $this->assertEquals($expected, $result);
-        $pre = '0.0.4';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-0.0.4';
-        $this->assertEquals($expected, $result);
-        $pre = '123';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-123';
-        $this->assertEquals($expected, $result);
-        $build = '0.0.2';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1-1.0.0+0.0.2';
-        $this->assertEquals($expected, $result);
-        $build = '123';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1-1.0.0+123';
-        $this->assertEquals($expected, $result);
-    }
-    public function testBumpVersionWithBumpEqualPreMinor()
-    {
-        $bump = 'pre-minor';
-        $version = '0.0.1-0.0.1+0.1.0';
-        $result = $this->testee->bumpVersion($version, $bump);
-        $expected = '0.0.1-0.1.0';
-        $this->assertEquals($expected, $result);
-        $pre = '0.0.4';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-0.0.4';
-        $this->assertEquals($expected, $result);
-        $pre = '123';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-123';
-        $this->assertEquals($expected, $result);
-        $build = '0.0.2';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1-0.1.0+0.0.2';
-        $this->assertEquals($expected, $result);
-        $build = '123';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1-0.1.0+123';
-        $this->assertEquals($expected, $result);
-    }
-    public function testBumpVersionWithBumpEqualPrePatch()
-    {
-        $bump = 'pre-patch';
-        $version = '0.0.1-0.0.1+0.1.0';
-        $result = $this->testee->bumpVersion($version, $bump);
-        $expected = '0.0.1-0.0.2';
-        $this->assertEquals($expected, $result);
-        $pre = '0.0.4';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-0.0.4';
-        $this->assertEquals($expected, $result);
-        $pre = '123';
-        $result = $this->testee->bumpVersion($version, $bump, $pre);
-        $expected = '0.0.1-123';
-        $this->assertEquals($expected, $result);
-        $build = '0.0.2';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1-0.0.2+0.0.2';
-        $this->assertEquals($expected, $result);
-        $build = '123';
-        $result = $this->testee->bumpVersion($version, $bump, null, $build);
-        $expected = '0.0.1-0.0.2+123';
-        $this->assertEquals($expected, $result);
-    }
-    public function testBumpVersionWithBumpInvalidValueThrowsDomainException()
+    public function testBumpFullVersionThrowsDomainExceptionForInvalidBumpValue(
+    )
     {
         $this->setExpectedException(
             '\DomainException',
             'Unknown bump value dump'
         );
         $bump = 'dump';
-        $version = '0.0.0-0.0.1+0.1.0';
-        $this->testee->bumpVersion($version, $bump);
+        $version = '0.0.1-0.0.1';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $expect = '1';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '0.0.1';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $this->class->bumpFullVersion($bump);
     }
-    public function testBumpVersionWithInvalidBumpArgumentTypeThrowsInvalidArgumentException(
-    )
+    public function testBumpFullVersionWithBumpEqualBuild()
     {
-        $this->setExpectedException(
-            '\InvalidArgumentException',
-            'Bump MUST be a string given integer'
-        );
-        $bump = 1;
-        $version = '0.0.0-0.0.1+0.1.0';
-        $this->testee->bumpVersion($version, $bump);
+        $bump = SVC::BUILD;
+        $version = '0.0.1';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $expect = '1';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.1+1';
+        $this->assertEquals($expected, (string)$this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.1+2';
+        $this->assertEquals($expected, (string)$this->class);
+        $pre = '0.0.2';
+        $this->class->setPre($pre)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-0.0.2+3';
+        $this->assertEquals($expected, (string)$this->class);
+        $pre = '123';
+        $this->class->setPre($pre)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-123+4';
+        $this->assertEquals($expected, (string)$this->class);
     }
-    public function testBumpVersionWithInvalidNewBuildArgumentTypeThrowsInvalidArgumentException(
-    )
+    public function testBumpFullVersionWithBumpEqualBuildMajor()
     {
-        $this->setExpectedException(
-            '\InvalidArgumentException',
-            'New build MUST be a string or integer given array'
-        );
-        $bump = 'patch';
-        $version = '0.0.0-0.0.1+0.1.0';
-        $build = array();
-        $this->testee->bumpVersion($version, $bump, null, $build);
+        $bump = SVC::BUILD_MAJOR;
+        $version = '0.0.1+0.0.1';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $expect = '1';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $expect = '0.0.1';
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.1+1.0.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.1+2.0.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $pre = '0.0.4';
+        $this->class->setPre($pre)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-0.0.4+3.0.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $pre = '123';
+        $this->class->setPre($pre)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-123+4.0.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '0.0.2';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-123+1.0.0';
+        $this->assertEquals($expected, (string)$this->class);
     }
-    public function testBumpVersionWithInvalidNewPreArgumentTypeThrowsInvalidArgumentException(
-    )
+    public function testBumpFullVersionWithBumpEqualBuildMinor()
     {
-        $this->setExpectedException(
-            '\InvalidArgumentException',
-            'New pre-release MUST be a string or integer given array'
-        );
-        $bump = 'patch';
-        $version = '0.0.0-0.0.1+0.1.0';
-        $pre = array();
-        $this->testee->bumpVersion($version, $bump, $pre);
+        $bump = SVC::BUILD_MINOR;
+        $version = '0.0.1+0.0.1';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $expect = '1';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $expect = '0.0.1';
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.1+0.1.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.1+0.2.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $pre = '0.0.4';
+        $this->class->setPre($pre)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-0.0.4+0.3.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $pre = '123';
+        $this->class->setPre($pre)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-123+0.4.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '0.0.2';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-123+0.1.0';
+        $this->assertEquals($expected, (string)$this->class);
     }
-    public function testBumpVersionWithInvalidVersionArgumentTypeThrowsInvalidArgumentException(
-    )
+    public function testBumpFullVersionWithBumpEqualBuildPatch()
     {
-        $this->setExpectedException(
-            '\InvalidArgumentException',
-            'Version MUST be a string given integer'
-        );
-        $bump = 'patch';
-        $version = 0;
-        $this->testee->bumpVersion($version, $bump);
+        $bump = SVC::BUILD_PATCH;
+        $version = '0.0.1+0.0.1';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $expect = '1';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $expect = '0.0.1';
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.1+0.0.2';
+        $this->assertEquals($expected, (string)$this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.1+0.0.3';
+        $this->assertEquals($expected, (string)$this->class);
+        $pre = '0.0.4';
+        $this->class->setPre($pre)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-0.0.4+0.0.4';
+        $this->assertEquals($expected, (string)$this->class);
+        $pre = '123';
+        $this->class->setPre($pre)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-123+0.0.5';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '0.0.2';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-123+0.0.3';
+        $this->assertEquals($expected, (string)$this->class);
     }
-    public function testBumpVersionWithInvalidVersionValueThrowsDomainException(
+    public function testBumpFullVersionWithBumpEqualMajor()
+    {
+        $bump = SVC::MAJOR;
+        $version = '0.0.1';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $expect = '1';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '1.0.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '2.0.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $pre = '0.0.4';
+        $this->class->setPre($pre)
+                    ->bumpFullVersion($bump);
+        $expected = '3.0.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $pre = '123';
+        $this->class->setPre($pre)
+                    ->bumpFullVersion($bump);
+        $expected = '4.0.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '0.0.2';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '5.0.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '234';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '6.0.0';
+        $this->assertEquals($expected, (string)$this->class);
+    }
+    public function testBumpFullVersionWithBumpEqualMinor()
+    {
+        $bump = SVC::MINOR;
+        $version = '0.0.1';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $expect = '1';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.1.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.2.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $pre = '0.0.4';
+        $this->class->setPre($pre)
+                    ->bumpFullVersion($bump);
+        $expected = '0.3.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $pre = '123';
+        $this->class->setPre($pre)
+                    ->bumpFullVersion($bump);
+        $expected = '0.4.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '0.0.2';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '0.5.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '234';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '0.6.0';
+        $this->assertEquals($expected, (string)$this->class);
+    }
+    public function testBumpFullVersionWithBumpEqualPatch()
+    {
+        $bump = SVC::PATCH;
+        $version = '0.0.1';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $expect = '1';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.2';
+        $this->assertEquals($expected, (string)$this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.3';
+        $this->assertEquals($expected, (string)$this->class);
+        $pre = '0.0.4';
+        $this->class->setPre($pre)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.4';
+        $this->assertEquals($expected, (string)$this->class);
+        $pre = '123';
+        $this->class->setPre($pre)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.5';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '0.0.2';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.6';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '234';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.7';
+        $this->assertEquals($expected, (string)$this->class);
+    }
+    public function testBumpFullVersionWithBumpEqualPre()
+    {
+        $bump = SVC::PRE;
+        $version = '0.0.1';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $expect = '1';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.1-1';
+        $this->assertEquals($expected, (string)$this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.1-2';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '0.0.2';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-3+0.0.2';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '123';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-4+123';
+        $this->assertEquals($expected, (string)$this->class);
+    }
+    public function testBumpFullVersionWithBumpEqualPreMajor()
+    {
+        $bump = SVC::PRE_MAJOR;
+        $version = '0.0.1-0.0.1';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $expect = '1';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '0.0.1';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.1-1.0.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.1-2.0.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '0.0.4';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-3.0.0+0.0.4';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '123';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-4.0.0+123';
+        $this->assertEquals($expected, (string)$this->class);
+    }
+    public function testBumpFullVersionWithBumpEqualPreMinor()
+    {
+        $bump = SVC::PRE_MINOR;
+        $version = '0.0.1-0.0.1';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $expect = '1';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '0.0.1';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.1-0.1.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.1-0.2.0';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '0.0.4';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-0.3.0+0.0.4';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '123';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-0.4.0+123';
+        $this->assertEquals($expected, (string)$this->class);
+    }
+    public function testBumpFullVersionWithBumpEqualPrePatch()
+    {
+        $bump = SVC::PRE_PATCH;
+        $version = '0.0.1-0.0.1';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $expect = '1';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '0.0.1';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.1-0.0.2';
+        $this->assertEquals($expected, (string)$this->class);
+        $this->class->bumpFullVersion($bump);
+        $expected = '0.0.1-0.0.3';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '0.0.4';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-0.0.4+0.0.4';
+        $this->assertEquals($expected, (string)$this->class);
+        $build = '123';
+        $this->class->setBuild($build)
+                    ->bumpFullVersion($bump);
+        $expected = '0.0.1-0.0.5+123';
+        $this->assertEquals($expected, (string)$this->class);
+    }
+    public function testBumpSemanticBuildThrowsDomainExceptionForUnknownBumpValue(
     )
     {
         $this->setExpectedException(
             '\DomainException',
-            'Version string given was not valid'
+            'Unknown bump value dump'
         );
-        $bump = 'patch';
-        $version = '0';
-        $this->testee->bumpVersion($version, $bump);
+        $bump = 'dump';
+        $version = '0.0.1+0.0.1';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $expect = '1';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $expect = '0.0.1';
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $this->class->bumpSemanticBuild($bump);
     }
-    public function testIsValidVersionWithBadValuesReturnsFalse()
+    public function testBumpSemanticPreThrowsDomainExceptionForUnknownBumpValue(
+    )
+    {
+        $this->setExpectedException(
+            '\DomainException',
+            'Unknown bump value dump'
+        );
+        $bump = 'dump';
+        $version = '0.0.1-0.0.1';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $expect = '1';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '0.0.1';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $this->class->bumpSemanticPre($bump);
+    }
+    public function testGetters()
+    {
+        $version = '0.1.2-3+4';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertEquals($expect, $this->class->getMajor());
+        $expect = '1';
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $this->assertEquals($expect, $this->class->getMinor());
+        $expect = '2';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $this->assertEquals($expect, $this->class->getPatch());
+        $expect = '3';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $this->assertEquals($expect, $this->class->getPre());
+        $this->assertEquals($expect, $this->class->getPreRelease());
+        $expect = '4';
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $this->assertEquals($expect, $this->class->getBuild());
+        $expect = '0.1.2';
+        $this->assertEquals($expect, $this->class->getVersion());
+    }
+    public function testIsValidWithBadBuildValuesReturnsFalse()
+    {
+        $version = '0.0.1+';
+        $result = $this->class->isValid($version);
+        $this->assertFalse($result);
+        $version = '0.0.1+1.0.*';
+        $result = $this->class->isValid($version);
+        $this->assertFalse($result);
+        $version = '0.0.1+.0.0';
+        $result = $this->class->isValid($version);
+        $this->assertFalse($result);
+        $version = '0.0.1+1..0';
+        $result = $this->class->isValid($version);
+        $this->assertFalse($result);
+        $version = '0.0.1+1.0.';
+        $result = $this->class->isValid($version);
+        $this->assertFalse($result);
+        $version = '0.0.1+a.b.';
+        $result = $this->class->isValid($version);
+        $this->assertFalse($result);
+        $version = '0.0.1++a.b.';
+        $result = $this->class->isValid($version);
+        $this->assertFalse($result);
+    }
+    public function testIsValidWithBadPreValuesReturnsFalse()
+    {
+        $version = '0.0.1-';
+        $result = $this->class->isValid($version);
+        $this->assertFalse($result);
+        $version = '0.0.1-1.0.*';
+        $result = $this->class->isValid($version);
+        $this->assertFalse($result);
+        $version = '0.0.1-.0.0';
+        $result = $this->class->isValid($version);
+        $this->assertFalse($result);
+        $version = '0.0.1-1..0';
+        $result = $this->class->isValid($version);
+        $this->assertFalse($result);
+        $version = '0.0.1-1.0.';
+        $result = $this->class->isValid($version);
+        $this->assertFalse($result);
+        $version = '0.0.1-a.b.';
+        $result = $this->class->isValid($version);
+        $this->assertFalse($result);
+        $version = '0.0.1--a.b.';
+        $result = $this->class->isValid($version);
+        $this->assertFalse($result);
+    }
+    public function testIsValidWithBadVersionValuesReturnsFalse()
     {
         $version = '';
-        $result = $this->testee->isValidVersion($version);
+        $result = $this->class->isValid($version);
         $this->assertFalse($result);
         $version = '1.0.*';
-        $result = $this->testee->isValidVersion($version);
+        $result = $this->class->isValid($version);
         $this->assertFalse($result);
         $version = '1.0.0+1+1';
-        $result = $this->testee->isValidVersion($version);
+        $result = $this->class->isValid($version);
         $this->assertFalse($result);
         $version = '1.0';
-        $result = $this->testee->isValidVersion($version);
+        $result = $this->class->isValid($version);
         $this->assertFalse($result);
         $version = '.0.0';
-        $result = $this->testee->isValidVersion($version);
+        $result = $this->class->isValid($version);
         $this->assertFalse($result);
         $version = '1..0';
-        $result = $this->testee->isValidVersion($version);
+        $result = $this->class->isValid($version);
         $this->assertFalse($result);
         $version = '1.0.';
-        $result = $this->testee->isValidVersion($version);
+        $result = $this->class->isValid($version);
         $this->assertFalse($result);
         $version = '1.0.a';
-        $result = $this->testee->isValidVersion($version);
+        $result = $this->class->isValid($version);
         $this->assertFalse($result);
     }
-    public function testIsValidVersionWithGoodValuesReturnsTrue()
+    public function testIsValidWithGoodBuildValuesReturnsTrue()
+    {
+        $version = '0.2.0+1';
+        $result = $this->class->isValid($version);
+        $this->assertTrue($result);
+        $version = '0.0.3+0.1';
+        $result = $this->class->isValid($version);
+        $this->assertTrue($result);
+        $version = '1.0.0+a.b';
+        $result = $this->class->isValid($version);
+        $this->assertTrue($result);
+        $version = '1.0.0+a-b';
+        $result = $this->class->isValid($version);
+        $this->assertTrue($result);
+        $version = '1.0.0+a-1';
+        $result = $this->class->isValid($version);
+        $this->assertTrue($result);
+    }
+    public function testIsValidWithGoodPreValuesReturnsTrue()
+    {
+        $version = '0.2.0-1';
+        $result = $this->class->isValid($version);
+        $this->assertTrue($result);
+        $version = '0.0.3-0.1';
+        $result = $this->class->isValid($version);
+        $this->assertTrue($result);
+        $version = '1.0.0-a.b';
+        $result = $this->class->isValid($version);
+        $this->assertTrue($result);
+        $version = '1.0.0-a-b';
+        $result = $this->class->isValid($version);
+        $this->assertTrue($result);
+        $version = '1.0.0-a-1';
+        $result = $this->class->isValid($version);
+        $this->assertTrue($result);
+    }
+    public function testIsValidWithGoodVersionValuesReturnsTrue()
     {
         $version = '1.0.0';
-        $result = $this->testee->isValidVersion($version);
+        $result = $this->class->isValid($version);
         $this->assertTrue($result);
         $version = '0.2.0-1';
-        $result = $this->testee->isValidVersion($version);
+        $result = $this->class->isValid($version);
         $this->assertTrue($result);
         $version = '0.0.3+1';
-        $result = $this->testee->isValidVersion($version);
+        $result = $this->class->isValid($version);
         $this->assertTrue($result);
         $version = '1.0.0-2+3';
-        $result = $this->testee->isValidVersion($version);
+        $result = $this->class->isValid($version);
         $this->assertTrue($result);
+    }
+    public function testParseFullVersion()
+    {
+        $version = '0.0.1';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $expect = '1';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $version = '0.2.0-1.0.0';
+        $this->class->parseFullVersion($version);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $expect = '2';
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '1.0.0';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $version = '3.0.0+1.0.0';
+        $this->class->parseFullVersion($version);
+        $expect = '3';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $expect = '0';
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $expect = '1.0.0';
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+        $version = '4.4.4-2+3';
+        $this->class->parseFullVersion($version);
+        $expect = '4';
+        $this->assertAttributeEquals($expect, 'major', $this->class);
+        $this->assertAttributeEquals($expect, 'minor', $this->class);
+        $this->assertAttributeEquals($expect, 'patch', $this->class);
+        $expect = '2';
+        $this->assertAttributeEquals($expect, 'pre', $this->class);
+        $expect = '3';
+        $this->assertAttributeEquals($expect, 'build', $this->class);
+    }
+    public function testSetBuildThrowsDomainExceptionForInvalidValue()
+    {
+        $value = 'dump<';
+        $this->setExpectedException(
+            '\DomainException',
+            'Given invalid build value: ' . $value
+        );
+        $version = '0.0.1';
+        $this->class->parseFullVersion($version);
+        $this->class->setBuild($value);
+    }
+    public function testSetMajorThrowsDomainExceptionForInvalidValue()
+    {
+        $value = 'dump';
+        $this->setExpectedException(
+            '\DomainException',
+            'Given invalid major value: ' . $value
+        );
+        $version = '0.0.1';
+        $this->class->parseFullVersion($version);
+        $this->class->setMajor($value);
+    }
+    public function testSetMinorThrowsDomainExceptionForInvalidValue()
+    {
+        $value = 'dump';
+        $this->setExpectedException(
+            '\DomainException',
+            'Given invalid minor value: ' . $value
+        );
+        $version = '0.0.1';
+        $this->class->parseFullVersion($version);
+        $this->class->setMinor($value);
+    }
+    public function testSetPatchThrowsDomainExceptionForInvalidValue()
+    {
+        $value = 'dump';
+        $this->setExpectedException(
+            '\DomainException',
+            'Given invalid patch value: ' . $value
+        );
+        $version = '0.0.1';
+        $this->class->parseFullVersion($version);
+        $this->class->setPatch($value);
+    }
+    public function testSetPreReleaseThrowsDomainExceptionForInvalidValue()
+    {
+        $value = 'dump<';
+        $this->setExpectedException(
+            '\DomainException',
+            'Given invalid pre-release value: ' . $value
+        );
+        $version = '0.0.1';
+        $this->class->parseFullVersion($version);
+        $this->class->setPreRelease($value);
+    }
+    public function testSetVersionThrowsDomainExceptionForInvalidValue()
+    {
+        $value = 'dump';
+        $this->setExpectedException(
+            '\DomainException',
+            'Given invalid version value: ' . $value
+        );
+        $version = '0.0.1';
+        $this->class->parseFullVersion($version);
+        $this->class->setVersion($value);
+    }
+    public function testToString()
+    {
+        $version = '0.0.1';
+        $this->class->parseFullVersion($version);
+        $this->assertEquals($version, (string)$this->class);
+        $version = '0.2.0-1';
+        $this->class->parseFullVersion($version);
+        $this->assertEquals($version, (string)$this->class);
+        $version = '3.0.0+2';
+        $this->class->parseFullVersion($version);
+        $this->assertEquals($version, (string)$this->class);
+        $version = '5.0.0-2+3';
+        $this->class->parseFullVersion($version);
+        $this->assertEquals($version, (string)$this->class);
     }
 }
