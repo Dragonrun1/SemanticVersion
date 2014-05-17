@@ -26,7 +26,7 @@
  * @license   http://www.gnu.org/copyleft/lesser.html GNU LGPL
  * @author    Michael Cummings <mgcummings@yahoo.com>
  */
-namespace Dragonrun1\SemanticVersion;
+namespace SemanticVersion;
 
 /**
  * Class Constants

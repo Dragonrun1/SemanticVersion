@@ -26,9 +26,9 @@
  * @license   http://www.gnu.org/copyleft/lesser.html GNU LGPL
  * @author    Michael Cummings <mgcummings@yahoo.com>
  */
-namespace Dragonrun1\SemanticVersion;
+namespace SemanticVersion;
 
-use Dragonrun1\SemanticVersion\Constants as SVC;
+use SemanticVersion\Constants as SVC;
 
 /**
  * Class Version

@@ -26,10 +26,10 @@
  * @license   http://www.gnu.org/copyleft/lesser.html GNU LGPL
  * @author    Michael Cummings <mgcummings@yahoo.com>
  */
-namespace Dragonrun1\SemanticVersion\Tests;
+namespace SemanticVersion\Tests;
 
-use Dragonrun1\SemanticVersion\Constants as SVC;
-use Dragonrun1\SemanticVersion\Version;
+use SemanticVersion\Constants as SVC;
+use SemanticVersion\Version;
 
 /**
  * Class VersionTest
