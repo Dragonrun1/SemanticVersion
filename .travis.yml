@@ -6,3 +6,10 @@ php:
   - "5.4"
   - "5.3"
   - "hhvm"
+
+script:
+    - mkdir -p build/logs
+    - phpunit --cover-clover build/logs/clover.xml
+
+after_script:
+    - php vendor/bin/coveralls -v
