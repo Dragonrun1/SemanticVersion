@@ -21,11 +21,15 @@
         "php": ">=5.3.10"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.0"
+        "phpunit/phpunit": "~4.0",
+        "satooshi/php-coveralls": "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "SemanticVersion\\": ["lib/", "tests/"]
+            "SemanticVersion\\": ["lib/"]
         }
+    },
+    "autoload-dev": {
+        "SemanticVersion\\": ["tests/"]
     }
 }
